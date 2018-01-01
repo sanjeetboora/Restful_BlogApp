@@ -120,6 +120,20 @@ app.get('/blogs/:id/edit',function (req,res) {
  });
 
 
+ // DELETE ROUTE 
+ app.delete('/blogs/:id',function (req,res) {
+ 	// FIND BLOG WITH PROVIDED ID
+ 	Blog.findByIdAndRemove(req.params.id,function (err,updateddBlog) {
+ 		if(err){ 
+ 			res.redirect("/blogs");
+ 		}
+ 		else{
+ 			res.redirect("/blogs");
+ 		}
+ 	});
+ 	
+ });
+
  app.listen(3000,function() {
  	console.log("app started !!!");
  });
