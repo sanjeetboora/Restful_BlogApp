@@ -1,13 +1,29 @@
 <% include ./partials/header %>
-<h1>index page</h1>
-<% blogs.forEach( function(blog) {  %>
-<h4><%= blog.title %></h4>
-<span><%= blog.created %></span>
-<p><%= blog.body%>...</p>
-<a href="/blogs/<%= blog._id %>">Read More</a>
 
-<img src="<%= blog.image %>">
+<div class="ui main container segment">
+	<div class="ui huge header">Blog App</div>
+	<div class="ui top attached">
+		<div class="ui divided items">
+			<% blogs.forEach( function(blog) {  %>
+			<div class="item">
+				<div class="image"><img src="<%= blog.image %>"></div>
+				<div class="content">
+					<a href="/blogs/<%= blog._id %>" class="header"><%= blog.title %></a>
+					<div class="meta"><span><%= blog.created.toDateString() %></span></div>
+					<div class="description">
+						<p><%- blog.body%>...</p>
+					</div>
+					<div class="extra">
+						<a href="/blogs/<%= blog._id %>" class="ui floated basic violet buttton">
+							Read More <i class="right chevron icon"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			<% }); %>
+		</div>
+	</div>
+</div>
 
-<% }); %>
 
 <% include ./partials/footer %>

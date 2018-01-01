@@ -1,12 +1,14 @@
  var express = require("express");
- var app = express();
- var bodyParser = require("body-parser");
- var methodOverride = require("method-override");
- var mongoose = require('mongoose');
+ app = express(),
+ bodyParser = require("body-parser"),
+ expressSanitizer = require("express-sanitizer"),
+ methodOverride = require("method-override"),
+ mongoose = require('mongoose');
  mongoose.connect("mongodb://localhost/restful_blog_app");
  app.set("view engine", "ejs");
  app.use(express.static("public"));
  app.use(bodyParser.urlencoded({extended:true}));
+ app.use(expressSanitizer());
  app.use(methodOverride("_method"));
 
 // APP / CONFIG
@@ -61,6 +63,7 @@ app.get('/blogs/new',function (req,res) {
 // CREATE ROUTE 
 app.post('/blogs',function (req,res) {
  	// CREATE NEW BLOG AND SAVE TO DB
+ 	req.body.blog.body = req.sanitize(req.body.blog.body);
  	Blog.create(req.body.blog,function (err, newBlog) {
  		if(err){
  			console.log(err);
@@ -107,6 +110,7 @@ app.get('/blogs/:id/edit',function (req,res) {
  // UPDATE ROUTE 
  app.put('/blogs/:id',function (req,res) {
  	// FIND BLOG WITH PROVIDED ID
+ 	req.body.blog.body = req.sanitize(req.body.blog.body);
  	Blog.findByIdAndUpdate(req.params.id,req.body.blog,function (err,updateddBlog) {
  		if(err){ 
  			res.redirect("/blogs");
