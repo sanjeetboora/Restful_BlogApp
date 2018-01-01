@@ -71,6 +71,20 @@ app.get('/blogs',function (req,res) {
  	
  });
 
+// SHOW ROUTE 
+ app.get('/blogs/:id',function (req,res) {
+ 	// FIND CAMPGROUND WITH PROVIDED ID
+ 	Blog.findById(req.params.id,function (err,foundBlog) {
+ 		if(err){ 
+ 			res.redirect("/blogs");
+ 		}
+ 		else{
+ 			// RENDER SHOW TEMPLATE OF THAT BlOG
+ 			res.render("show", {blog : foundBlog});
+ 		}
+ 	});
+ 	
+ });
 
 
  app.listen(3000,function() {
