@@ -21,7 +21,7 @@
  //   Blog.create({
  // 	title : "Test Blog ", 
  // 	image : "http://www.technocrazed.com/wp-content/uploads/2015/12/beautiful-wallpaper-download-14.jpg",
- // 	description : "Hello this is test blog"
+ // 	body : "Hello this is test blog"
  // }, function(err,campground) {
  // 	if(err){
  // 		console.log(err);
@@ -37,7 +37,7 @@ app.get('/',function (req,res) {
  	res.redirect("/blogs");
  });
 
-
+// INDEX ROUTE
 app.get('/blogs',function (req,res) {
 	Blog.find({},function(err,allBlogs) {
  		if(err){
@@ -48,6 +48,29 @@ app.get('/blogs',function (req,res) {
  		}
  	});
  });
+
+
+// NEW ROUTE 
+ app.get('/blogs/new',function (req,res) {
+ 	res.render("new");
+ });
+
+
+// CREATE ROUTE 
+ app.post('/blogs',function (req,res) {
+ 	// CREATE NEW BLOG AND SAVE TO DB
+ 	Blog.create(req.body.blog,function (err, newBlog) {
+ 		if(err){
+ 			console.log(err);
+ 		}
+ 		else{
+ 			// REDIRECT BACK TO BLOGS INDEX PAGE
+ 			res.redirect("/blogs");
+ 		}
+ 	});
+ 	
+ });
+
 
 
  app.listen(3000,function() {
